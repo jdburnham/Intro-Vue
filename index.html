@@ -4,9 +4,85 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Intro to Vue.JS</title>
+    <link 
+        href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" 
+        rel="stylesheet"
+    />
 </head>
 <body>
-    <h1>HELLO THERE!</h1>
+    <div id="app" class="bg-teal-400 h-screen flex flex-col items-center pt-8">
+        <h1 class="text-4xl font-thin">
+            Welcome to {{storeName}}
+        </h1>
+        <ul class="mt-16 w-10/12">
+            <li class="bg-white mt-4 p-2 shadow-lg text-orange-700"
+            v-for="product in products"
+            >
+            {{product.qty}} - {{product.name}}
+            <span v-if="product.qty==0"class="ml-4 text-red-500 font-bold">
+                Out of Stock
+            </span>
+            <button 
+            @click="product.qty++" 
+            class="bg-purple-500 rounded text-white px-2 ml-16">
+                +
+            </button>
+            
+            <button 
+            v-if="product.qty > 0"
+            @click="product.qty--" 
+            class="bg-red-500 rounded text-white px-2 ml-1">
+                -
+            </button>
+            </li>
+        </ul>
+        <h1 class="text-5xl font-thin">Total Inventory: {{totalInvetory}}</h1>
+    </div>        
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        const app = new Vue({
+            el:"#app",
+            data:{
+                storeName:"JB's The Store",
+                products: [
+                {
+                    id: 0,
+                    name: "Apples",
+                    qty: 0
+                },
+                {
+                    id: 1,
+                    name: "Oranges",
+                    qty: 3
+                },
+                {
+                    id: 2,
+                    name: "Eggs",
+                    qty: 12
+                },
+                {
+                    id: 3,
+                    name: "Milk",
+                    qty: 1
+                },
+                {
+                    id: 4,
+                    name: "Meat",
+                    qty: 3
+                }
+                ]
+            },
+            computed:
+            {
+                totalInvetory(){
+                    return this.products.reduce((total, product) => {
+                        return total + product.qty;
+                    }, 0);
+                    
+                }
+            }
+        });
+    </script>
 </body>
 </html>
